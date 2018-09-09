@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+
+<!-- ==================================================== -->
+
+<!-- Build file for our first web application -->
+
+<project name="antwarwebapp" default="all" basedir=".">
+
+	<!-- JAVA ENV -->
+	<property name="author" value="MAI THANH DUY AN" />
+	<property name="java8" value="1.8" />
+
+	<!-- PROJECT PROPERTIES -->
+	<property name="project.name" value="${ant.project.name}" />
+	<property name="web.dir" value="WebContent" />
+	<property name="src.dir" value="src" />
+	<property name="build.dir" value="build" />
+	<property name="classes.dir" value="${build.dir}/classes" />
+	<property name="dist.dir" value="${build.dir}/dist" />
+	<property name="war.dir" value="${build.dir}/war" />
+	<property name="war.file" value="${project.name}.war" />
+	<property name="web" value="web" />
+
+	<!-- TOMCAT PROPERTIES -->
+	<property name="tomcat.webapps" value="D:\SPLUS\DPG\SourceCode\Java\apache-tomcat-8.0.53\webapps" />
+
+	<!--CLASS PATH -->
+	<path id="master-classpath">
+		<fileset dir="WebContent/WEB-INF/lib">
+			<include name="*.jar" />
+		</fileset>
+
+		<pathelement path="${classes.dir}" />
+	</path>
+
+	<target name="clean" description="Delete old build directories">
+		<delete dir="${dist.dir}" />
+		<delete dir="${war.dir}" />
+		<delete dir="${classes.dir}" />
+	</target>
+
+	<target name="init" depends="clean">
+		<mkdir dir="${dist.dir}" />
+		<mkdir dir="${war.dir}" />
+		<mkdir dir="${classes.dir}" />
+		<mkdir dir="${war.dir}/WEB-INF" />
+		<mkdir dir="${war.dir}/WEB-INF/classes" />
+	</target>
+
+
+
+	<target name="all" depends="init,build,deploy" />
+
+	<target name="build" depends="" description="Compile main source tree java files">
+		<javac destdir="${classes.dir}" source="${java8}" target="${java8}" debug="true" deprecation="false" optimize="false" failonerror="true" includeantruntime="false">
+			<src path="${src.dir}" />
+			<classpath refid="master-classpath" />
+		</javac>
+	</target>
+
+	<target name="deploy" depends="init,build">
+		<copy todir="${war.dir}/WEB-INF/classes">
+			<fileset dir="${classes.dir}" includes="**/*.class" />
+		</copy>
+			
+		<copy todir="${war.dir}/WEB-INF">
+			<fileset dir="${web.dir}" includes="WebContent/WEB-INF/web.xml" />
+		</copy>
+		
+		<copy todir="${war.dir}">
+			<fileset dir="${web.dir}" includes="**/*.*" />
+		</copy>
+
+		<echo message="Creating war file...." />
+		<jar jarfile="${dist.dir}/${war.file}" basedir="${war.dir}" />
+		
+		<copy todir="${tomcat.webapps}">
+			<fileset dir="${dist.dir}" />
+		</copy>
+	</target>
+
+</project>
