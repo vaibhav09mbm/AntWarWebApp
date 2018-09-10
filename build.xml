@@ -19,9 +19,9 @@
 	<property name="dist.dir" value="${build.dir}/dist" />
 	<property name="war.dir" value="${build.dir}/war" />
 	<property name="war.file" value="${project.name}.war" />
-	<property name="web" value="web" />
 
-	<!-- TOMCAT PROPERTIES -->
+	<!-- TOMCAT SERVER PROPERTIES -->
+	<property name="tomcat.webapps" value="D:\SPLUS\DPG\SourceCode\Java\apache-tomcat-8.0.53\webapps" />
 	<property name="tomcat.webapps" value="D:\SPLUS\DPG\SourceCode\Java\apache-tomcat-8.0.53\webapps" />
 
 	<!--CLASS PATH -->
@@ -33,6 +33,7 @@
 		<pathelement path="${classes.dir}" />
 	</path>
 
+	<!-- ANT TASK -->
 	<target name="clean" description="Delete old build directories">
 		<delete dir="${dist.dir}" />
 		<delete dir="${war.dir}" />
@@ -62,21 +63,31 @@
 		<copy todir="${war.dir}/WEB-INF/classes">
 			<fileset dir="${classes.dir}" includes="**/*.class" />
 		</copy>
-			
+
 		<copy todir="${war.dir}/WEB-INF">
 			<fileset dir="${web.dir}" includes="WebContent/WEB-INF/web.xml" />
 		</copy>
-		
+
 		<copy todir="${war.dir}">
 			<fileset dir="${web.dir}" includes="**/*.*" />
 		</copy>
 
 		<echo message="Creating war file...." />
 		<jar jarfile="${dist.dir}/${war.file}" basedir="${war.dir}" />
-		
+
 		<copy todir="${tomcat.webapps}">
 			<fileset dir="${dist.dir}" />
 		</copy>
 	</target>
 
+	<target name="hellotask">
+		<taskdef name="hellotask" classname="anttask.HelloTask" classpath="${classes.dir}" />
+		<hellotask message="Hello World!" />
+	</target>
+
+	<target name="unittest">
+		<junit haltonfailure="true" printsummary="true">
+			<test name="test.AntWarWebAppTest" />
+		</junit>
+	</target>
 </project>
