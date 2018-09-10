@@ -15,13 +15,13 @@
 	<property name="web.dir" value="WebContent" />
 	<property name="src.dir" value="src" />
 	<property name="build.dir" value="build" />
+	<property name="resources.dir" value="resources" />
 	<property name="classes.dir" value="${build.dir}/classes" />
 	<property name="dist.dir" value="${build.dir}/dist" />
 	<property name="war.dir" value="${build.dir}/war" />
 	<property name="war.file" value="${project.name}.war" />
 
 	<!-- TOMCAT SERVER PROPERTIES -->
-	<property name="tomcat.webapps" value="D:\SPLUS\DPG\SourceCode\Java\apache-tomcat-8.0.53\webapps" />
 	<property name="tomcat.webapps" value="D:\SPLUS\DPG\SourceCode\Java\apache-tomcat-8.0.53\webapps" />
 
 	<!--CLASS PATH -->
@@ -53,6 +53,10 @@
 	<target name="all" depends="init,build,deploy" />
 
 	<target name="build" depends="" description="Compile main source tree java files">
+		<copy todir="${classes.dir}">
+			<fileset dir="${src.dir}" includes="**/*.xml" />
+			<fileset dir="${src.dir}" includes="**/*.xml" />
+		</copy>
 		<javac destdir="${classes.dir}" source="${java8}" target="${java8}" debug="true" deprecation="false" optimize="false" failonerror="true" includeantruntime="false">
 			<src path="${src.dir}" />
 			<classpath refid="master-classpath" />
