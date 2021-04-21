@@ -22,7 +22,7 @@
 	<property name="war.file" value="${project.name}.war" />
 
 	<!-- TOMCAT SERVER PROPERTIES -->
-	<property name="tomcat.webapps" value="D:\SPLUS\DPG\SourceCode\Java\apache-tomcat-8.0.53\webapps" />
+	<property name="tomcat.webapps" value="${build.dir}\SourceCode\Java\apache-tomcat-8.0.53\webapps" />
 
 	<!--CLASS PATH -->
 	<path id="master-classpath">

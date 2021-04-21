@@ -1,0 +1,37 @@
+<project name="Jacoco library to collect code coverage remotely" xmlns:jacoco="antlib:org.jacoco.ant">
+    <property name="jacoco.port" value="10001"/>
+    <property name="jacocoReportFile" location="it-jacoco.exec"/>
+
+    <taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml">
+        <classpath path="C:\Users\vkhandelwal\Downloads\jacoco-0.8.6\lib/jacocoant.jar"/>
+    </taskdef>
+
+    <target name="jacocoReportDwnLd">
+            <jacoco:dump address="localhost" port="${jacoco.port}" dump="true" reset="true" destfile="${jacocoReportFile}" append="false"/>
+    </target>
+
+    <target name="jacocoReset">
+            <jacoco:dump address="localhost" port="${jacoco.port}" reset="true" destfile="${jacocoReportFile}" append="false"/>
+        <delete file="${jacocoReportFile}"/>
+    </target>
+    
+    <target name="createreport">
+    <jacoco:report>
+
+    <executiondata>
+        <file file="it-jacoco.exec"/>
+    </executiondata>
+
+    <structure name="Example Project">
+        <classfiles>
+            <fileset dir="C:\Users\vkhandelwal\git\AntWarWebApp\build\classes"/>
+        </classfiles>
+        <sourcefiles encoding="UTF-8">
+            <fileset dir="src"/>
+        </sourcefiles>
+    </structure>
+
+    <html destdir="report"/>
+
+</jacoco:report></target>
+</project>
